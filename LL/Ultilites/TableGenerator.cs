@@ -10,6 +10,7 @@ namespace LL.Ultilites
         private bool _isLeftSide = true;
         private bool _isLast = false;
         private int _index = 0;
+        private int _currentLine = 0;
 
         public string Generate( IReadOnlyList<string> grammar )
         {
@@ -20,6 +21,11 @@ namespace LL.Ultilites
             UpdateNonterminalElements( grammar.Count );
 
             return CreateTableString();
+        }
+
+        public IReadOnlyList<TableLine> GetTable()
+        {
+            return _lines;
         }
 
         private void CheckLeftPartOfGrammar( IReadOnlyList<string> grammar )
@@ -65,6 +71,7 @@ namespace LL.Ultilites
                     _lines.Add( GenerateTableLine( element ) );
                     i++;
                 }
+                ++_currentLine;
             }
         }
 
@@ -107,6 +114,14 @@ namespace LL.Ultilites
                     }
 
                     return new TableLine( ++_index, ch, guideSymbols.ToList(), false, false, nonterminalLines.First().Index, _isLast ? false : true, false );
+                }
+                else if ( element == "e" )
+                {
+                    return new TableLine( ++_index, element, _lines[ _currentLine ].GuideSet, false, true, -1, false, false );
+                }
+                else if ( element == "#" )
+                {
+                    return new TableLine( ++_index, element, new List<string>() { element }, true, true, -1, false, true );
                 }
                 else
                 {
