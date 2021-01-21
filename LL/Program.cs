@@ -10,14 +10,17 @@ namespace LL
         static void Main( string[] args )
         {
             ITableGenerator generator = new TableGenerator();
+            IGuideSetDefiner guideSetDefiner = new GuideSetDefiner();
             IReadOnlyList<string> grammar; 
 
-            using ( StreamReader sr = new StreamReader( "../../../test.txt" ) )
+            using ( StreamReader sr = new StreamReader( "../../../test2.txt" ) )
             {
                 grammar = sr.ReadToEnd().Split( Environment.NewLine );
             }
 
-            Console.WriteLine( generator.Generate( grammar ) );
+            //Console.WriteLine( generator.Generate( grammar ) );
+
+            guideSetDefiner.DefineGuideSetToFile( "../../../test3.txt", "../../../outputGuideSet.txt" );
         }
     }
 }
