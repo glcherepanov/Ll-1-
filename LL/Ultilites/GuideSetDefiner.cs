@@ -8,6 +8,8 @@ namespace LL.Ultilites
     public class GuideSetDefiner : IGuideSetDefiner
     {
         private List<GrammaLine> _gramma = new List<GrammaLine>();
+        private readonly string EMPTY = "e";
+        private readonly string END = "#";
 
         public void DefineGuideSetToFile( string inputGrammaFile, string outFile )
         {
@@ -113,7 +115,7 @@ namespace LL.Ultilites
                     newGramma.Add( new GrammaLine
                     {
                         LeftSide = newNontermonal,
-                        RightSide = new List<string>() { "#" }
+                        RightSide = new List<string>() { EMPTY }
                     } );
                 }
                 else
@@ -123,6 +125,7 @@ namespace LL.Ultilites
             }
 
             _gramma = newGramma;
+            _gramma.Where( item => item.LeftSide == "<E>" ).ToList().ForEach( item => item.RightSide.Add( END ) );
         }
 
         private void UnionLines()
