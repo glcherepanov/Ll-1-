@@ -33,6 +33,11 @@ namespace LL.Ultilites
 
             foreach ( var grammarLine in grammar )
             {
+                if ( grammarLine == string.Empty )
+                {
+                    break;
+                }
+
                 IReadOnlyList<string> lineElements = grammarLine.Split( ' ' );
                 bool isGuideSet = false;
                 List<string> guideSet = new List<string>();
@@ -59,6 +64,11 @@ namespace LL.Ultilites
         {
             foreach ( var grammarLine in grammar )
             {
+                if ( grammarLine == string.Empty )
+                {
+                    break;
+                }
+
                 string line = grammarLine.Remove( 0, grammarLine.IndexOf( "->" ) + 3 );
                 line = line.Remove( line.IndexOf( '/' ) - 1, line.Length - line.IndexOf( '/' ) + 1 );
                 IReadOnlyList<string> lineElements = line.Split( ' ' );

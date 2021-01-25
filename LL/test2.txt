@@ -8,5 +8,5 @@
 <T> => <F> / -  (  test 6
 <F> => - <F> / - 
 <F> => ( <E> ) / ( 
-<F> => test / test
-<F> => 6 / 6
+<F> => id / test
+<F> => int / 6

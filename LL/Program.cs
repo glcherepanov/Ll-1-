@@ -13,14 +13,18 @@ namespace LL
             IGuideSetDefiner guideSetDefiner = new GuideSetDefiner();
             IReadOnlyList<string> grammar; 
 
-            using ( StreamReader sr = new StreamReader( "../../../test2.txt" ) )
+            guideSetDefiner.DefineGuideSetToFile( "../../../test3.txt", "../../../outputGuideSet.txt" );
+         
+            using ( StreamReader sr = new StreamReader( "../../../outputGuideSet.txt" ) )
             {
                 grammar = sr.ReadToEnd().Split( Environment.NewLine );
             }
 
-            //Console.WriteLine( generator.Generate( grammar ) );
+            using ( StreamWriter sw = new StreamWriter( "../../../outputTable.txt" ) )
+            {
+                sw.WriteLine( generator.Generate( grammar ) );
+            }
 
-            guideSetDefiner.DefineGuideSetToFile( "../../../test3.txt", "../../../outputGuideSet.txt" );
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +10,7 @@ namespace LL.Ultilites
         private List<GrammaLine> _gramma = new List<GrammaLine>();
         private readonly string EMPTY = "e";
         private readonly string END = "#";
+        private readonly Dictionary<string, List<string>> _followDictionary = new Dictionary<string, List<string>>();
 
         public void DefineGuideSetToFile( string inputGrammaFile, string outFile )
         {
@@ -19,14 +20,14 @@ namespace LL.Ultilites
 
             foreach ( var line in _gramma )
             {
-                line.GuideSet = GetGuideSet( line.RightSide.First() );    
+                line.GuideSet = GetGuideSet( line );
             }
 
             using ( StreamWriter sw = new StreamWriter( outFile ) )
             {
                 foreach ( var line in _gramma )
                 {
-                    sw.WriteLine( string.Format( "{0} => {1} / {2}",  line.LeftSide, string.Join( " ", line.RightSide.ToArray() ), string.Join( " ", line.GuideSet.ToArray() ) ) );
+                    sw.WriteLine( string.Format( "{0} -> {1} / {2}", line.LeftSide, string.Join( " ", line.RightSide.ToArray() ), string.Join( " ", line.GuideSet.ToArray() ) ) );
                 }
             }
         }
@@ -87,11 +88,11 @@ namespace LL.Ultilites
                         }
                         else if ( newLine.LeftSide == line.LeftSide && newLine.RightSide.First() == line.LeftSide )
                         {
-                            aN.Add( new List<string> ( newLine.RightSide.Skip( 1 ) ) );
+                            aN.Add( new List<string>( newLine.RightSide.Skip( 1 ) ) );
                         }
                     }
 
-                    string newNontermonal = new string( line.LeftSide.SkipLast( 1 ).ToArray() ) + "`>"; 
+                    string newNontermonal = new string( line.LeftSide.SkipLast( 1 ).ToArray() ) + "`>";
 
                     foreach ( var b in bN )
                     {
@@ -105,6 +106,7 @@ namespace LL.Ultilites
 
                     foreach ( var a in aN )
                     {
+                        a.Add( newNontermonal );
                         newGramma.Add( new GrammaLine()
                         {
                             LeftSide = newNontermonal,
@@ -143,16 +145,71 @@ namespace LL.Ultilites
             _gramma = temp;
         }
 
-        private List<string> GetGuideSet( string firstElement )
+        private List<string> GetGuideSet( GrammaLine line )
         {
-            if ( firstElement.StartsWith( "<" ) )
+            if ( line.RightSide.First() == EMPTY )
             {
-                return First( firstElement );
+                return Follow( line.LeftSide );
+            }
+            else if ( line.RightSide.First().StartsWith( "<" ) )
+            {
+                return First( line.RightSide.First() );
             }
             else
             {
-                return new List<string>() { firstElement };
+                return new List<string>() { line.RightSide.First() };
             }
+        }
+
+        private List<string> Follow( string nonterminal )
+        {
+            HashSet<string> guideSet = new HashSet<string>();
+
+            if ( _followDictionary.ContainsKey( nonterminal ) )
+            {
+                return _followDictionary[ nonterminal ];
+            }
+
+            foreach ( var line in _gramma )
+            {
+                if ( line.RightSide.Contains( nonterminal ) )
+                {
+                    string element = string.Empty;
+                    int elementIndex = line.RightSide.FindIndex( item => item == nonterminal );
+                    try
+                    {
+                        element = line.RightSide[ elementIndex + 1 ];
+                    }
+                    catch ( Exception )
+                    { }
+
+
+                    if ( ( element == string.Empty || element == END || element.Contains( "`" ) ) && elementIndex == 1 )
+                    {
+                        guideSet.UnionWith( Follow( line.LeftSide ).ToHashSet() );
+                    }
+
+                    if ( element != string.Empty )
+                    {
+                        if ( element.StartsWith( "<" ) )
+                        {
+                            guideSet.UnionWith( First( element ).ToHashSet() );
+                            guideSet.RemoveWhere( item => item == EMPTY );
+                        }
+                        else
+                        {
+                            guideSet.Add( element );
+                        }
+                    }
+                }
+            }
+
+            if ( !_followDictionary.ContainsKey( nonterminal ) )
+            {
+                _followDictionary.Add( nonterminal, guideSet.ToList() );
+            }
+
+            return guideSet.ToList();
         }
 
         private List<string> First( string Nonterminal )
