@@ -2,5 +2,6 @@
 {
     public interface ISlider
     {
+        void Execute();
     }
 }

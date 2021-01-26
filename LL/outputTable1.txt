@@ -1,0 +1,32 @@
+№          Сдвиг      Ошибка     Указатель  В стек     Конец      Символ     Множество  
+1          False      True       26         False      False      E          MINUS, BRACKET_OPEN, ID, INTEGER 
+2          False      False      14         False      False      qReqaMb    PLUS       
+3          False      True       30         False      False      qReqaMb    BRACKET_CLOSE, # 
+4          False      True       26         False      False      T          MINUS, BRACKET_OPEN, ID, INTEGER 
+5          False      False      20         False      False      HConCSJ    MULTIPLICATION 
+6          False      True       14         False      False      HConCSJ    PLUS, BRACKET_CLOSE, # 
+7          False      False      24         False      False      F          ID         
+8          False      False      25         False      False      F          INTEGER    
+9          False      False      26         False      False      F          MINUS      
+10         False      True       28         False      False      F          BRACKET_OPEN 
+11         False      False      4          True       False      T          MINUS, BRACKET_OPEN, ID, INTEGER 
+12         False      False      2          True       False      qReqaMb    PLUS, BRACKET_CLOSE, # 
+13         True       True       -1         False      True       #          #          
+14         True       True       15         False      False      PLUS       PLUS       
+15         False      False      4          True       False      T          MINUS, BRACKET_OPEN, ID, INTEGER 
+16         False      False      2          False      False      qReqaMb    PLUS, BRACKET_CLOSE, # 
+17         False      True       -1         False      False      e          BRACKET_CLOSE, # 
+18         False      False      7          True       False      F          ID, INTEGER, MINUS, BRACKET_OPEN 
+19         False      False      5          False      False      HConCSJ    MULTIPLICATION, PLUS, BRACKET_CLOSE, # 
+20         True       True       21         False      False      MULTIPLICATION MULTIPLICATION 
+21         False      False      7          True       False      F          ID, INTEGER, MINUS, BRACKET_OPEN 
+22         False      False      5          False      False      HConCSJ    MULTIPLICATION, PLUS, BRACKET_CLOSE, # 
+23         False      True       -1         False      False      e          PLUS, BRACKET_CLOSE, # 
+24         True       True       -1         False      False      ID         ID         
+25         True       True       -1         False      False      INTEGER    INTEGER    
+26         True       True       27         False      False      MINUS      MINUS      
+27         False      False      7          False      False      F          ID, INTEGER, MINUS, BRACKET_OPEN 
+28         True       True       29         False      False      BRACKET_OPEN BRACKET_OPEN 
+29         False      False      1          True       False      E          MINUS, BRACKET_OPEN, ID, INTEGER 
+30         True       True       -1         False      False      BRACKET_CLOSE BRACKET_CLOSE 
+

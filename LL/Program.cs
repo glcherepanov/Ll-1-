@@ -25,6 +25,9 @@ namespace LL
                 sw.WriteLine( generator.Generate( grammar ) );
             }
 
+            ISlider slider = new Slider( "../../../inputLine.txt", "",  generator.GetTable() );
+            slider.Execute();
+
         }
     }
 }
