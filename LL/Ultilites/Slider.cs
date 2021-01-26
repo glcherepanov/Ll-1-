@@ -23,8 +23,9 @@ namespace LL.Ultilites
 
         public void Execute()
         {
-            _stack.Push( 0 );
+            //_stack.Push( 0 );
             List<string> elements = _inputStream.ReadLine().Split( " " ).ToList();
+            //elements.Add( "e" );
             int currentRule = 1;
 
             foreach ( var element in elements )
@@ -53,6 +54,12 @@ namespace LL.Ultilites
 
             while ( check )
             {
+                if ( ruleId == RETURN_INDEX )
+                {
+                    _stack.Pop();
+                    break;
+                }
+
                 if ( _table[ ruleId - 1 ].Shift )
                 {
                     check = false;
@@ -67,23 +74,25 @@ namespace LL.Ultilites
                         _stack.Push( ruleId + 1 );
                     }
 
-                    if ( _table[ ruleId - 1].Pointer == RETURN_INDEX )
+                    if ( _table[ ruleId - 1 ].Pointer == RETURN_INDEX )
                     {
                         _stack.Pop();
                     }
+
+                    ruleId = _table[ ruleId - 1 ].Pointer;
                 }
-                else
+                else 
                 {
-                    Console.WriteLine( string.Format( "Unexepted symbol: {0}", element ) );
+                    if ( _table[ ruleId - 1 ].Error )
+                    {
+                        Console.WriteLine( string.Format( "Unexepted symbol: {0}", element ) );
+                    }
                     ++ruleId;
 
-                    _movesTrack.ForEach( item => Console.WriteLine( item ) );
+                    //_movesTrack.ForEach( item => Console.WriteLine( item ) );
                 }
 
-                ruleId = _table[ ruleId - 1 ].Pointer;
             }
-
-            ruleId = _table[ ruleId - 1 ].Pointer;
         }
     }
 }

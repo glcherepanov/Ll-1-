@@ -7,6 +7,7 @@ namespace LL.Ultilites
     public class TableGenerator : ITableGenerator
     {
         private List<TableLine> _lines = new List<TableLine>();
+        private Dictionary<int, List<int>> _leftPartIndexes = new Dictionary<int, List<int>>();
         private bool _isLeftSide = true;
         private bool _isLast = false;
         private int _index = 0;
@@ -56,12 +57,15 @@ namespace LL.Ultilites
                     }
                 }
 
+                _leftPartIndexes.Add( _index, new List<int>() );
                 _lines[ _lines.Count - 1 ].GuideSet = guideSet;
             }
         }
 
         private void CheckRightPartOfGrammar( IReadOnlyList<string> grammar )
         {
+            int lineNumber = 1;
+
             foreach ( var grammarLine in grammar )
             {
                 if ( grammarLine == string.Empty )
@@ -80,16 +84,24 @@ namespace LL.Ultilites
                     _isLast = i == lineElements.Count;
                     _lines.Add( GenerateTableLine( element ) );
                     i++;
+                    _leftPartIndexes[ lineNumber ].Add( _index );
                 }
+
+                lineNumber++;
                 ++_currentLine;
             }
         }
 
         private void UpdateNonterminalElements( int size )
         {
-            for ( int i = 0; i < size; i++ )
+            //for ( int i = 0; i < size; i++ )
+            //{
+            //    _lines[ i ].Pointer = _lines.FirstOrDefault( item => item.Char == _lines[ i ].GuideSet.First() )?.Index ?? -1;
+            //}
+
+            foreach ( var i in _leftPartIndexes.Keys )
             {
-                _lines[ i ].Pointer = _lines.FirstOrDefault( item => item.Char == _lines[ i ].GuideSet.First() )?.Index ?? -1;
+                _lines[ i - 1 ].Pointer = _lines.FirstOrDefault( item => item.GuideSet.SequenceEqual( _lines[ i - 1 ].GuideSet ) && _leftPartIndexes[ i ].Contains( item.Index )  )?.Index ?? -1;
             }
         }
 
