@@ -24,8 +24,9 @@ namespace LL
             {
                 sw.WriteLine( generator.Generate( grammar ) );
             }
+            Lexer.Program.Tokenize("../../../inputLine.txt");
 
-            ISlider slider = new Slider( "../../../inputLine.txt", "",  generator.GetTable() );
+            ISlider slider = new Slider( "../../../tokenizedInputLine.txt", "",  generator.GetTable() );
             slider.Execute();
 
         }
