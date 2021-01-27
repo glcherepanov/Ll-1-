@@ -1,15 +1,32 @@
 №          Сдвиг      Ошибка     Указатель  В стек     Конец      Символ     Множество  
-1          False      False      5          False      False      E          id         
-2          False      False      8          False      False      E`         +          
-3          False      True       11         False      False      E`         #, +       
-4          False      True       12         False      False      E          id         
-5          True       True       6          False      False      id         id         
-6          False      True       2          True       False      E`         +, #       
-7          True       True       -1         False      True       #          #          
-8          True       True       9          False      False      +          +          
-9          False      True       1          True       False      E          id         
-10         False      True       2          False      False      E`         +, #       
-11         False      True       -1         False      False      e          #, +       
-12         True       True       13         False      False      id         id         
+1          False      True       11         False      False      E          -, (, id, int 
+2          False      False      14         False      False      E`         +          
+3          False      True       17         False      False      E`         ), #       
+4          False      True       18         False      False      T          -, (, id, int 
+5          False      False      20         False      False      T`         *          
+6          False      True       23         False      False      T`         +, ), #    
+7          False      False      24         False      False      F          -          
+8          False      False      26         False      False      F          (          
+9          False      False      29         False      False      F          id         
+10         False      True       30         False      False      F          int        
+11         False      True       4          True       False      T          -, (, id, int 
+12         False      True       2          True       False      E`         +, ), #    
 13         True       True       -1         False      True       #          #          
+14         True       True       15         False      False      +          +          
+15         False      True       4          True       False      T          -, (, id, int 
+16         False      True       2          False      False      E`         +, ), #    
+17         False      True       -1         False      False      e          ), #       
+18         False      True       7          True       False      F          -, (, id, int 
+19         False      True       5          False      False      T`         *, +, ), # 
+20         True       True       21         False      False      *          *          
+21         False      True       7          True       False      F          -, (, id, int 
+22         False      True       5          False      False      T`         *, +, ), # 
+23         False      True       -1         False      False      e          +, ), #    
+24         True       True       25         False      False      -          -          
+25         False      True       7          False      False      F          -, (, id, int 
+26         True       True       27         False      False      (          (          
+27         False      True       1          True       False      E          -, (, id, int 
+28         True       True       -1         False      False      )          )          
+29         True       True       -1         False      False      id         id         
+30         True       True       -1         False      False      int        int        
 

@@ -23,7 +23,7 @@ namespace LL.Ultilites
 
         public void Execute()
         {
-            List<string> elements = _inputStream.ReadLine().Split( " " ).ToList();
+            List<string> elements = _inputStream.ReadLine().Trim().Split( " " ).ToList();
             _stack.Push( 0 );
             elements.Add( "#" );
             int currentRule = 1;
