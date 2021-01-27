@@ -135,7 +135,7 @@ namespace LL.Ultilites
                         guideSymbols.UnionWith( line.GuideSet.ToHashSet() );
                     }
 
-                    return new TableLine( ++_index, ch, guideSymbols.ToList(), false, false, nonterminalLines.First().Index, _isLast ? false : true, false );
+                    return new TableLine( ++_index, ch, guideSymbols.ToList(), false, true, nonterminalLines.First().Index, _isLast ? false : true, false );
                 }
                 else if ( element == "e" )
                 {

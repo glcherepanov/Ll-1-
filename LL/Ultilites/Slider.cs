@@ -23,14 +23,14 @@ namespace LL.Ultilites
 
         public void Execute()
         {
-            //_stack.Push( 0 );
             List<string> elements = _inputStream.ReadLine().Split( " " ).ToList();
-            //elements.Add( "e" );
+            _stack.Push( 0 );
+            elements.Add( "#" );
             int currentRule = 1;
 
             foreach ( var element in elements )
             {
-                CheckPoiners( currentRule, element );
+                currentRule = CheckPoiners( currentRule, element );
             }
 
             if ( _stack.Count() != 0 )
@@ -41,6 +41,7 @@ namespace LL.Ultilites
             {
                 Console.WriteLine( "Stack empty" );
             }
+            _movesTrack.ForEach( item => Console.WriteLine( item ) );
         }
 
         private bool ElementInSet( int ruleId, string element )
@@ -48,24 +49,18 @@ namespace LL.Ultilites
             return _table[ ruleId - 1 ].GuideSet.Contains( element );
         }
 
-        private void CheckPoiners( int ruleId, string element )
+        private int CheckPoiners( int ruleId, string element )
         {
             bool check = true;
 
             while ( check )
             {
-                if ( ruleId == RETURN_INDEX )
-                {
-                    _stack.Pop();
-                    break;
-                }
-
                 if ( _table[ ruleId - 1 ].Shift )
                 {
                     check = false;
                 }
 
-                _movesTrack.Add( string.Format( "rule( {0} ), element( {1} )", ruleId, element ) );
+                _movesTrack.Add( string.Format( "rule( {0} ), element( {1} ), stack( {2} )", ruleId, element, string.Join( " ", _stack.ToList() ) ) );
 
                 if ( ElementInSet( ruleId, element ) )
                 {
@@ -76,23 +71,32 @@ namespace LL.Ultilites
 
                     if ( _table[ ruleId - 1 ].Pointer == RETURN_INDEX )
                     {
-                        _stack.Pop();
+                        ruleId = _stack.Pop();
                     }
-
-                    ruleId = _table[ ruleId - 1 ].Pointer;
+                    else
+                    {
+                        ruleId = _table[ ruleId - 1 ].Pointer;
+                    }
                 }
-                else 
+                else if ( _table[ ruleId - 1 ].Pointer == RETURN_INDEX )
+                {
+                    check = true;
+                    ruleId = _stack.Pop();
+                }
+                else
                 {
                     if ( _table[ ruleId - 1 ].Error )
                     {
                         Console.WriteLine( string.Format( "Unexepted symbol: {0}", element ) );
+                        _movesTrack.ForEach( item => Console.WriteLine( item ) );
                     }
                     ++ruleId;
 
-                    //_movesTrack.ForEach( item => Console.WriteLine( item ) );
                 }
 
             }
+
+            return ruleId;
         }
     }
 }

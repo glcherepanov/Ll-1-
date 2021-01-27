@@ -149,7 +149,7 @@ namespace LL.Ultilites
         {
             if ( line.RightSide.First() == EMPTY )
             {
-                return Follow( line.LeftSide );
+                return Follow( line.LeftSide, new List<string>() );
             }
             else if ( line.RightSide.First().StartsWith( "<" ) )
             {
@@ -161,7 +161,7 @@ namespace LL.Ultilites
             }
         }
 
-        private List<string> Follow( string nonterminal )
+        private List<string> Follow( string nonterminal, List<string> usedNonterminal )
         {
             HashSet<string> guideSet = new HashSet<string>();
 
@@ -184,9 +184,10 @@ namespace LL.Ultilites
                     { }
 
 
-                    if ( ( element == string.Empty || element == END || element.Contains( "`" ) ) && elementIndex == 1 )
+                    if ( ( element == string.Empty || element == END || element.Contains( "`" ) ) && elementIndex == 1 && !usedNonterminal.Contains( line.LeftSide ) )
                     {
-                        guideSet.UnionWith( Follow( line.LeftSide ).ToHashSet() );
+                        usedNonterminal.Add( line.LeftSide );
+                        guideSet.UnionWith( Follow( line.LeftSide, usedNonterminal ).ToHashSet() );
                     }
 
                     if ( element != string.Empty )

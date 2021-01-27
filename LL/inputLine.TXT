@@ -1,3 +1,2 @@
-int
-int + id * ( id + int * - id )
+id + id
 - int + ( - id ) + ( id + id ) + int
