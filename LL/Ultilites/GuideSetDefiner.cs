@@ -18,6 +18,8 @@ namespace LL.Ultilites
             DelLefthandRecursion();
             UnionLines();
 
+            _gramma.Where( item => item.LeftSide == _gramma.First().LeftSide ).ToList().ForEach( item => item.RightSide.Add( END ) );
+
             foreach ( var line in _gramma )
             {
                 line.GuideSet = GetGuideSet( line );
@@ -127,7 +129,6 @@ namespace LL.Ultilites
             }
 
             _gramma = newGramma;
-            _gramma.Where( item => item.LeftSide == "<E>" ).ToList().ForEach( item => item.RightSide.Add( END ) );
         }
 
         private void UnionLines()
@@ -136,7 +137,7 @@ namespace LL.Ultilites
 
             foreach ( var line in _gramma )
             {
-                if ( line.RightSide.Last().Contains( "`" ) )
+                if ( line.RightSide.Last().Contains( "`" ) || line.RightSide.Last() == END && line.RightSide[ line.RightSide.Count - 2 ].Contains( "`" ) )
                 {
                     temp.RemoveAll( item => item.LeftSide == line.LeftSide && item.RightSide.SequenceEqual( line.RightSide.SkipLast( 1 ).ToList() ) );
                 }

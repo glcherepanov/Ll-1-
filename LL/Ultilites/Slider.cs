@@ -24,7 +24,7 @@ namespace LL.Ultilites
         public void Execute()
         {
             List<string> elements = _inputStream.ReadLine().Trim().Split( " " ).ToList();
-            _stack.Push( 0 );
+            _stack.Push( RETURN_INDEX );
             elements.Add( "#" );
             int currentRule = 1;
 
@@ -55,7 +55,12 @@ namespace LL.Ultilites
 
             while ( check )
             {
-                if ( _table[ ruleId - 1 ].Shift )
+                if ( ruleId == RETURN_INDEX )
+                {
+                    break;
+                }
+
+                if ( _table[ ruleId - 1 ].Shift && !_table[ ruleId - 1 ].End )
                 {
                     check = false;
                 }
@@ -80,7 +85,6 @@ namespace LL.Ultilites
                 }
                 else if ( _table[ ruleId - 1 ].Pointer == RETURN_INDEX )
                 {
-                    check = true;
                     ruleId = _stack.Pop();
                 }
                 else

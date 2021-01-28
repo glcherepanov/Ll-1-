@@ -13,7 +13,7 @@ namespace LL
             IGuideSetDefiner guideSetDefiner = new GuideSetDefiner();
             IReadOnlyList<string> grammar; 
 
-            guideSetDefiner.DefineGuideSetToFile( "../../../test3.txt", "../../../outputGuideSet.txt" );
+            guideSetDefiner.DefineGuideSetToFile( "../../../test4.txt", "../../../outputGuideSet.txt" );
          
             using ( StreamReader sr = new StreamReader( "../../../outputGuideSet.txt" ) )
             {
